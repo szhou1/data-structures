@@ -1,9 +1,9 @@
 var Tree = function(value) {
-  var newTree = {};
+  var newTree = Object.create(treeMethods);
   newTree.value = value;
 
   // your code here
-  newTree.children = null;  // fix me
+  newTree.children = [];  // fix me
 
   return newTree;
 };
@@ -11,9 +11,29 @@ var Tree = function(value) {
 var treeMethods = {};
 
 treeMethods.addChild = function(value) {
+  var child = new Tree(value);
+  this.children.push(child);
 };
 
 treeMethods.contains = function(target) {
+  var found = false;
+
+  var searchChildren = function(children, target){
+    found = children.reduce(function(acc,child){
+      if(acc) {return acc;};
+      if(Array.isArray(child.children) && child.children.length > 0){
+        acc = searchChildren(child.children, target);
+      }
+      else if(child.value === target){
+        acc = true;
+      }
+      return acc;
+    }, false);
+
+    return found;
+  };
+
+  return searchChildren(this.children, target);
 };
 
 
@@ -21,3 +41,5 @@ treeMethods.contains = function(target) {
 /*
  * Complexity: What is the time complexity of the above functions?
  */
+// addChild() => O(1) constant time
+// searchChildren() => O(nlog(n)) 
