@@ -24,11 +24,11 @@ var LimitedArray = function(limit) {
     checkLimit(index);
     storage[index] = value;
     count++;
-    console.log("count: " + count);
-    console.log(storage)
-    console.log(count, limit / 2)
-    if(count > limit / 2){
-      throw new Error("Reached limit!");
+    // console.log("count: " + count, "limit * 0.75: " + limit * 0.75);
+    // console.log(JSON.stringify(storage));
+    if(count > limit * 0.75){
+      console.log("ERROR")
+      throw new Error("Exceeded max count threshold!");
     }
   };
   limitedArray.each = function(callback) {
@@ -36,20 +36,29 @@ var LimitedArray = function(limit) {
       callback(storage[i], i, storage);
     }
   };
-  limitedArray.resize = function(lim){
-    var oldStorage = storage;
-    //this.limit = lim;
-    limit = lim;
-
-    storage = [];
-    storage.length = lim;
-    oldStorage.forEach(function(item,i){
-      // console.log(item)
-      storage[i] = item;
-    });
-
-    console.log(storage);
+  limitedArray.checkMaxSize = function(){
+    console.log("CHECK MAX SIZE")
+    if(count > limit * 0.75){
+      console.log("FOUND ERROR")
+      throw new Error("Exceeded max count threshold!");
+    }
+  }
+  limitedArray.incrementCount = function(){
+    count++;
   };
+  // limitedArray.resize = function(lim){
+  //   var oldStorage = storage;
+  //   limit = lim;
+  //
+  //   storage = [];
+  //   storage.length = lim;
+  //   oldStorage.forEach(function(item,i){
+  //     // console.log(item)
+  //     storage[i] = item;
+  //   });
+  //
+  //   console.log(storage);
+  // };
 
   var checkLimit = function(index) {
     if (typeof index !== 'number') {
