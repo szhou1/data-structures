@@ -41,4 +41,8 @@ describe('tree', function() {
     expect(tree.contains(8)).to.equal(true);
   });
 
+  it('should handle arrays', function() {
+    tree.addChild([1]);
+    expect(tree.contains([1])).to.equal(true);
+  });
 });

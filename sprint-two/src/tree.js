@@ -24,6 +24,15 @@ treeMethods.contains = function(target) {
       if(Array.isArray(child.children) && child.children.length > 0){
         acc = searchChildren(child.children, target);
       }
+      else if(Array.isArray(child.value)){
+        acc = true;
+        for(var i=0; i<child.value.length; i++){
+          if(child.value[i] !== target[i]){
+            acc = false;
+            break;
+          }
+        }
+      }
       else if(child.value === target){
         acc = true;
       }
@@ -42,4 +51,4 @@ treeMethods.contains = function(target) {
  * Complexity: What is the time complexity of the above functions?
  */
 // addChild() => O(1) constant time
-// searchChildren() => O(nlog(n))
+// searchChildren() => O(log(n))
