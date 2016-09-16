@@ -13,27 +13,49 @@
 
 var LimitedArray = function(limit) {
   var storage = [];
-
+  var count = 0;
   var limitedArray = {};
   limitedArray.get = function(index) {
+
     checkLimit(index);
     return storage[index];
   };
   limitedArray.set = function(index, value) {
     checkLimit(index);
     storage[index] = value;
+    count++;
+    console.log("count: " + count);
+    console.log(storage)
+    console.log(count, limit / 2)
+    if(count > limit / 2){
+      throw new Error("Reached limit!");
+    }
   };
   limitedArray.each = function(callback) {
     for (var i = 0; i < storage.length; i++) {
       callback(storage[i], i, storage);
     }
   };
+  limitedArray.resize = function(lim){
+    var oldStorage = storage;
+    //this.limit = lim;
+    limit = lim;
+
+    storage = [];
+    storage.length = lim;
+    oldStorage.forEach(function(item,i){
+      // console.log(item)
+      storage[i] = item;
+    });
+
+    console.log(storage);
+  };
 
   var checkLimit = function(index) {
     if (typeof index !== 'number') {
       throw new Error('setter requires a numeric index for its first argument');
     }
-    if (limit <= index) {
+    if (this.limit <= index) {
       throw new Error('Error trying to access an over-the-limit index');
     }
   };

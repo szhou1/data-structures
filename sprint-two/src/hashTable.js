@@ -4,6 +4,7 @@ var HashTable = function() {
 };
 
 HashTable.prototype.insert = function(k, v) {
+
   var index = getIndexBelowMaxForKey(k, this._limit);
 
   var node = {};
@@ -14,16 +15,18 @@ HashTable.prototype.insert = function(k, v) {
   var firstNode = this._storage.get(index, k);
 
   if(firstNode === undefined || firstNode === null) {
-    this._storage.set(index, node);
+    try {
+      this._storage.set(index, node);
+    } catch(e){
+      console.log("CAUGHT ERROR")
+      this._limit *= 2;
+      this._storage.resize(this._limit);
+    }
   } else {
     var n = firstNode;
     while(n !== null) {
-      // console.log(n);
-      // console.log(n.key, k)
       if (n.key === k){
-        // n = node;
         n.value = node.value;
-        // console.log(n)
         break;
       }
       else if(n.next === null) {
@@ -38,7 +41,7 @@ HashTable.prototype.insert = function(k, v) {
 
 HashTable.prototype.retrieve = function(k) {
   var index = getIndexBelowMaxForKey(k, this._limit);
-
+  console.log("retrieve this hash: " + index, k, this._limit)
   var node = this._storage.get(index, k);
 
   while(node !== null && node !== undefined) {
@@ -67,14 +70,6 @@ HashTable.prototype.remove = function(k) {
     previousNode = node;
     node = node.next;
   }
-
-  // this._storage.each(function(value, i, storage) {
-  //   console.log(index + " - " + i);
-  //   if(index === i) {
-  //     storage[i] = undefined;
-  //     console.log(value);
-  //   }
-  // });
 };
 
 
