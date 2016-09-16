@@ -23,19 +23,19 @@ var LimitedArray = function(limit) {
   limitedArray.set = function(index, value) {
     checkLimit(index);
     storage[index] = value;
-    count++;
-    // console.log("count: " + count, "limit * 0.75: " + limit * 0.75);
-    // console.log(JSON.stringify(storage));
-    if(count > limit * 0.75){
-      console.log("ERROR")
-      throw new Error("Exceeded max count threshold!");
+    if(value) {
+      count++;
+    } else {
+      count--;
     }
   };
+
   limitedArray.each = function(callback) {
     for (var i = 0; i < storage.length; i++) {
       callback(storage[i], i, storage);
     }
   };
+
   limitedArray.checkMaxSize = function(){
     console.log("CHECK MAX SIZE")
     if(count > limit * 0.75){
@@ -46,19 +46,18 @@ var LimitedArray = function(limit) {
   limitedArray.incrementCount = function(){
     count++;
   };
-  // limitedArray.resize = function(lim){
-  //   var oldStorage = storage;
-  //   limit = lim;
-  //
-  //   storage = [];
-  //   storage.length = lim;
-  //   oldStorage.forEach(function(item,i){
-  //     // console.log(item)
-  //     storage[i] = item;
-  //   });
-  //
-  //   console.log(storage);
-  // };
+
+  limitedArray.checkMinSize = function(){
+    console.log("CHECK MIN SIZE")
+    if(count < limit * 0.25){
+      console.log("FOUND ERROR")
+      throw new Error("Exceeded min count threshold!");
+    }
+  }
+
+  limitedArray.decrementCount = function(){
+    count--;
+  };
 
   var checkLimit = function(index) {
     if (typeof index !== 'number') {

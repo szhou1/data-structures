@@ -15,10 +15,11 @@ HashTable.prototype.insert = function(k, v) {
   var firstNode = this._storage.get(index, k);
   // console.log(firstNode)
   if(!firstNode) {
+    this._storage.set(index, node);
     try {
-      this._storage.set(index, node);
+      this._storage.checkMaxSize();
     } catch(e){
-      console.log("CAUGHT ERROR")
+      console.log("CAUGHT ERROR: " + e)
       this.resize(this._limit * 2);
     }
   } else {
@@ -36,7 +37,7 @@ HashTable.prototype.insert = function(k, v) {
         try {
           this._storage.checkMaxSize();
         } catch(e){
-          console.log("CAUGHT ERROR")
+          console.log("CAUGHT ERROR: " + e)
           this.resize(this._limit * 2);
         }
         break;
@@ -56,8 +57,8 @@ HashTable.prototype.resize = function(limit){
     oldStorage.push(node);
   });
   this._storage = LimitedArray(this._limit);
-  console.log(oldStorage);
-  console.log(this._storage);
+  // console.log(oldStorage);
+  // console.log(this._storage);
   for(var i=0; i<oldStorage.length; i++){
     var node = oldStorage[i];
     while(node){
@@ -67,7 +68,6 @@ HashTable.prototype.resize = function(limit){
       node = node.next;
     }
   }
-
 };
 
 HashTable.prototype.retrieve = function(k) {
@@ -89,14 +89,28 @@ HashTable.prototype.remove = function(k) {
   var firstNode = this._storage.get(index, k);
   if(firstNode && firstNode.next === null){
     this._storage.set(index, undefined);
+    try {
+      this._storage.checkMinSize();
+    } catch(e) {
+      console.log("CAUGHT ERROR: " + e)
+      this.resize(this._limit / 2);
+    }
     return;
   }
   var node = firstNode;
   var previousNode = firstNode;
-  while(node !== null && node !== undefined){
+  while(!node){
     if(node.key === k){
       previousNode.next = null;
-      return;
+      this._storage.decrementCount();
+
+      try {
+        this._storage.checkMinSize();
+      } catch(e) {
+        console.log("CAUGHT ERROR: " + e)
+        this.resize(this._limit / 2);
+      }
+      break;
     }
     previousNode = node;
     node = node.next;
