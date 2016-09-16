@@ -36,4 +36,37 @@ describe('binarySearchTree', function() {
     binarySearchTree.depthFirstLog(func);
     expect(array).to.eql([5, 2, 3]);
   });
+
+  it('should execute callback function on values in increasing order', function() {
+    var array = [];
+    var func = function(value) { array.push(value); };
+    binarySearchTree.insert(6);
+    binarySearchTree.insert(7);
+    binarySearchTree.insert(8);
+    binarySearchTree.insert(9);
+    binarySearchTree.depthFirstLog(func);
+    expect(array).to.eql([5,6,7,8,9]);
+  });
+
+  it('should not have duplicate values', function() {
+    var array = [];
+    var func = function(value) { array.push(value); };
+    binarySearchTree.insert(5);
+    binarySearchTree.insert(5);
+    binarySearchTree.insert(5);
+    binarySearchTree.insert(5);
+    binarySearchTree.depthFirstLog(func);
+    expect(array).to.eql([5]);
+  });
+
+  it('should handle weird values', function() {
+    var array = [];
+    var func = function(value) { array.push(value); };
+    binarySearchTree.insert(-1);
+    binarySearchTree.insert(-2);
+    binarySearchTree.insert(6);
+    binarySearchTree.insert(999999999999999999999999999);
+    binarySearchTree.depthFirstLog(func);
+    expect(array).to.eql([5,-1,-2,6,999999999999999999999999999]);
+  });
 });

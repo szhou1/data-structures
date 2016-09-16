@@ -3,43 +3,33 @@ var BinarySearchTree = function(value) {
   node.value = value;
   node.left = null;
   node.right = null;
-  // console.log(node)
   return node;
 };
 
 var setBSTPrototype = {};
 
 setBSTPrototype.insert = function(value){
-  // console.log(this.value);
   var traverseTree = function(node){
     if(!node){
       // insert
-      // console.log("insert: ");
-      // console.log(value)
       node = BinarySearchTree(value);
-      // console.log(node)
       return node;
     }
     else if(node.value > value){
       if(!node.left){
-        // console.log("insert: " + value)
         node.left = BinarySearchTree(value);
         return;
       } else{
         // go left
-        // console.log("go left")
         traverseTree(node.left);
-        // console.log(node.left)
       }
     }
     else if(node.value < value){
       if(!node.right){
-        // console.log("insert: " + value)
         node.right = BinarySearchTree(value);
         return;
       } else{
         // go right
-        // console.log("go right")
         traverseTree(node.right);
       }
     }
@@ -51,20 +41,16 @@ setBSTPrototype.insert = function(value){
 setBSTPrototype.contains = function(value){
 
   var found = false;
-  console.log("CONTAINS???: " + value)
 
   var traverseTree = function(node){
-    // console.log(node)
     if(!node){
       return;
     }else if(node.value && node.value === value){
       found = true;
       return;
     }else if(node.left && node.left.value <= value && node.value > value){
-      console.log("GO LEFT")
       traverseTree(node.left);
     }else if(node.right && node.right.value >= value && node.value < value){
-      console.log("GO RIGHT")
       traverseTree(node.right);
     }
   }
@@ -89,15 +75,9 @@ setBSTPrototype.depthFirstLog = function(cb){
 };
 
 
-// TreeNode = function(value){
-//   var node = {};
-//   node.value = value;
-//   node.left = null;
-//   node.right = null;
-//   return node;
-// };
-
-
 /*
  * Complexity: What is the time complexity of the above functions?
  */
+// insert - O(log(n))
+// contains - O(log(n))
+// depth - O(n)
