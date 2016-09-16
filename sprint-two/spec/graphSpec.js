@@ -68,4 +68,17 @@ describe('graph', function() {
     expect(graph.hasEdge(3, 5)).to.equal(true);
     expect(graph.hasEdge(5, 5)).to.equal(true);
   });
+
+
+  it('should remove all nodes', function() {
+    var removeIt = function(item) {
+      graph.removeNode(item);
+    };
+    graph.addNode(5);
+    graph.addNode(2);
+    graph.addNode(1);
+    graph.addNode(3);
+    graph.forEachNode(removeIt);
+    expect(Object.keys(graph.graph).length).to.equal(0);
+  });
 });
