@@ -52,4 +52,15 @@ describe('linkedList', function() {
   });
 
   // add more tests here to test the functionality of linkedList
+  it('should return undefined when trying to remove node from empty linked list', function(){
+    expect(linkedList.removeHead()).to.equal(undefined);
+  });
+
+  it('should return null after adding null', function(){
+    linkedList.addToTail(null);
+    linkedList.addToTail(4);
+    expect(linkedList.contains(null)).to.equal(true);
+    expect(linkedList.contains(4)).to.equal(true);
+  });
+
 });
