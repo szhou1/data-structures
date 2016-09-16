@@ -24,4 +24,11 @@ describe('set', function() {
     expect(set.contains('Mel Gibson')).to.equal(false);
   });
 
+  it('should contain only unique values', function() {
+    set.add('5');
+    set.add('5');
+    set.remove('5');
+    expect(set.contains('5')).to.equal(false);
+
+  });
 });
