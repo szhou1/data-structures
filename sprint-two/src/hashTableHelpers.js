@@ -16,10 +16,10 @@ var LimitedArray = function(limit) {
   var count = 0;
   var limitedArray = {};
   limitedArray.get = function(index) {
-
     checkLimit(index);
     return storage[index];
   };
+
   limitedArray.set = function(index, value) {
     checkLimit(index);
     storage[index] = value;
@@ -37,9 +37,7 @@ var LimitedArray = function(limit) {
   };
 
   limitedArray.checkMaxSize = function(){
-    console.log("CHECK MAX SIZE")
     if(count > limit * 0.75){
-      console.log("FOUND ERROR")
       throw new Error("Exceeded max count threshold!");
     }
   }
@@ -48,9 +46,7 @@ var LimitedArray = function(limit) {
   };
 
   limitedArray.checkMinSize = function(){
-    console.log("CHECK MIN SIZE")
     if(count < limit * 0.25){
-      console.log("FOUND ERROR")
       throw new Error("Exceeded min count threshold!");
     }
   }
