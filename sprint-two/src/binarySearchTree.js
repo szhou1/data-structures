@@ -9,12 +9,26 @@ var BinarySearchTree = function(value) {
 var setBSTPrototype = {};
 
 setBSTPrototype.treeToVine = function(){
-  var head = {};
+  var arr = [];
   var traverseTree = function(tree){
-    
+    if(!tree){
+      return;
+    }
+    else{
+      for(var i=0; i<arr.length; i++){
+        if(arr[i].value < tree.value){
+          arr.splice(i+1, 0, tree.value);
+          break;
+        }
+      }
+
+      traverseTree(tree.left);
+      traverseTree(tree.right);
+    }
   };
 
   traverseTree(this);
+  console.log(arr);
 };
 
 setBSTPrototype.findMinDepth = function(){
