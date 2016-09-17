@@ -69,4 +69,32 @@ describe('binarySearchTree', function() {
     binarySearchTree.depthFirstLog(func);
     expect(array).to.eql([5,-1,-2,6,999999999999999999999999999]);
   });
+
+  it('should find max depth of tree', function() {
+    binarySearchTree.insert(20);
+    expect(binarySearchTree.findMaxDepth()).to.equal(2);
+
+    binarySearchTree.insert(30);
+    expect(binarySearchTree.findMaxDepth()).to.equal(3);
+    binarySearchTree.insert(40);
+    expect(binarySearchTree.findMaxDepth()).to.equal(4);
+  });
+
+  it('should find depth of tree with no branches', function() {
+    binarySearchTree = BinarySearchTree(5);
+    expect(binarySearchTree.findMaxDepth()).to.equal(1);
+  });
+
+  it('should find min height of tree', function() {
+    expect(binarySearchTree.findMinDepth()).to.equal(1);
+    binarySearchTree.insert(2);
+    expect(binarySearchTree.findMinDepth()).to.equal(2);
+    binarySearchTree.insert(1);
+    expect(binarySearchTree.findMinDepth()).to.equal(3);
+    binarySearchTree.insert(7);
+    expect(binarySearchTree.findMinDepth()).to.equal(2);
+    binarySearchTree.insert(3);
+    expect(binarySearchTree.findMinDepth()).to.equal(2);
+  });
+
 });

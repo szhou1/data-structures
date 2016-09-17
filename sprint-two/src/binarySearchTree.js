@@ -8,6 +8,55 @@ var BinarySearchTree = function(value) {
 
 var setBSTPrototype = {};
 
+setBSTPrototype.treeToVine = function(){
+  var head = {};
+  var traverseTree = function(tree){
+    
+  };
+
+  traverseTree(this);
+};
+
+setBSTPrototype.findMinDepth = function(){
+
+  // var minHeight = 0;
+  var traverseTree = function(tree){
+    if(!tree.left && !tree.right){
+      // is leaf
+      // console.log("leaf")
+      return 1;
+    } else {
+      if(!tree.left && tree.right){
+        // console.log("traverse right")
+        return traverseTree(tree.right) + 1;
+      } else if (tree.left && !tree.right){
+        // console.log("traverse left")
+        return traverseTree(tree.left) + 1;
+      } else{
+        // console.log("traverse both")
+        return Math.min(traverseTree(tree.left), traverseTree(tree.right)) + 1;
+      }
+    }
+  };
+
+  var minHeight = traverseTree(this);
+  return minHeight;
+}
+
+setBSTPrototype.findMaxDepth = function(){
+  // var depth = 0;
+  var traverseTree = function(tree){
+    if(!tree){
+      // node is empty
+      return 0;
+    } else {
+      return Math.max(traverseTree(tree.left), traverseTree(tree.right)) + 1;
+    }
+  };
+  var depth = traverseTree(this);
+  return depth;
+};
+
 setBSTPrototype.insert = function(value){
   var traverseTree = function(node){
     if(!node){
