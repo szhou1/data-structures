@@ -125,4 +125,16 @@ describe('tree', function() {
       expect(tree.contains(30)).to.equal(true);
       expect(tree.contains(40)).to.equal(false);
     });
+
+    it('should traverse the tree and execute a callback function on every value', function() {
+      var add100ToValue = function(node) {
+        node.value += 100;
+      };
+      tree.addChild(10);
+      tree.children[0].addChild(20);
+      tree.children[0].children[0].addChild(30);
+      tree.traverse(add100ToValue);
+      expect(tree.children[0].children[0].children[0].value).to.equal(130);
+
+    });
 });
