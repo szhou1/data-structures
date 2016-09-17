@@ -72,4 +72,57 @@ describe('tree', function() {
     expect(tree.contains(1)).to.equal(false);
     expect(tree.contains(5)).to.equal(true);
   });
+
+  it('should remove all children', function() {
+    tree.addChild(10);
+    tree.addChild(20);
+    tree.addChild(30);
+    tree.addChild(40);
+    tree.removeFromParent(10);
+    tree.removeFromParent(20);
+    tree.removeFromParent(30);
+    tree.removeFromParent(40);
+    expect(tree.children.length).to.equal(0);
+  });
+
+  it('should remove nested children', function() {
+    tree.addChild(10);
+    tree.children[0].addChild(20);
+    tree.children[0].addChild(30);
+    tree.children[0].children[1].addChild(40);
+    tree.removeFromParent(10);
+    expect(tree.children.length).to.equal(0);
+    expect(tree.contains(10)).to.equal(false);
+    expect(tree.contains(20)).to.equal(false);
+    expect(tree.contains(30)).to.equal(false);
+    expect(tree.contains(40)).to.equal(false);
+  });
+
+
+    it('should remove nested children again', function() {
+      tree.addChild(10);
+      tree.children[0].addChild(20);
+      tree.children[0].addChild(30);
+      tree.children[0].children[1].addChild(40);
+      tree.removeFromParent(20);
+      tree.removeFromParent(30);
+      expect(tree.children.length).to.equal(1);
+      expect(tree.contains(10)).to.equal(true);
+      expect(tree.contains(20)).to.equal(false);
+      expect(tree.contains(30)).to.equal(false);
+      expect(tree.contains(40)).to.equal(false);
+    });
+
+    it('should remove deeply nested children ', function() {
+      tree.addChild(10);
+      tree.children[0].addChild(20);
+      tree.children[0].addChild(30);
+      tree.children[0].children[1].addChild(40);
+      tree.removeFromParent(40);
+      expect(tree.children.length).to.equal(1);
+      expect(tree.contains(10)).to.equal(true);
+      expect(tree.contains(20)).to.equal(true);
+      expect(tree.contains(30)).to.equal(true);
+      expect(tree.contains(40)).to.equal(false);
+    });
 });

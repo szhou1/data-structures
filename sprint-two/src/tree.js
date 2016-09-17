@@ -10,9 +10,16 @@ var Tree = function(value) {
 var treeMethods = {};
 
 treeMethods.removeFromParent = function(value) {
-  // if(this.contains(value)) {
-  //     var
-  // }
+  var targetNode = this.get(value);
+  var targetParent = targetNode.parent;
+  targetNode.parent = null;
+  var targetIndex = null;
+  targetParent.children.forEach(function(child, i) {
+    if(child.value === value) {
+      targetIndex = i;
+    }
+  });
+  targetParent.children.splice(targetIndex, 1);
 };
 
 treeMethods.get = function(target) {
@@ -22,7 +29,7 @@ treeMethods.get = function(target) {
 
     for(var i=0; i<children.length; i++){
       var child = children[i];
-      console.log(child);
+      // console.log(child);
       if(child.value === target){
         return child;
       }
