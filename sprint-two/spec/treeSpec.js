@@ -41,8 +41,35 @@ describe('tree', function() {
     expect(tree.contains(8)).to.equal(true);
   });
 
-  it('should handle arrays', function() {
-    tree.addChild([1]);
-    expect(tree.contains([1])).to.equal(true);
+  // it('should handle arrays', function() {
+  //   tree.addChild([1]);
+  //   expect(tree.contains([1])).to.equal(true);
+  // });
+
+  it('should have "removeFromParent" method', function() {
+    expect(tree.removeFromParent).to.be.a('function');
+  });
+
+  it('should get child node', function() {
+    tree.addChild(5);
+    tree.addChild(1);
+    expect(tree.get(1).value).to.equal(1);
+    expect(tree.get(5).value).to.equal(5);
+  });
+
+  it('should detect parent', function() {
+    tree.addChild(5);
+    tree.addChild(1);
+    expect(tree.get(5).parent).to.not.equal(undefined);
+    expect(tree.get(1).parent).to.equal(tree.get(5).parent);
+  });
+
+  it('should remove one child from parent', function() {
+    tree.addChild(5);
+    tree.addChild(1);
+    expect(tree.contains(1)).to.equal(true);
+    tree.removeFromParent(1);
+    expect(tree.contains(1)).to.equal(false);
+    expect(tree.contains(5)).to.equal(true);
   });
 });
