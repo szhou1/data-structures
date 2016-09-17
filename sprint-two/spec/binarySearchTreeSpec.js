@@ -1,100 +1,155 @@
-describe('binarySearchTree', function() {
-  var binarySearchTree;
+describe('BinarySearchTree', function() {
+  var bst;
 
   beforeEach(function() {
-    binarySearchTree = BinarySearchTree(5);
+    bst = BinarySearchTree(5);
   });
 
   it('should have methods named "insert", "contains", and "depthFirstLog', function() {
-    expect(binarySearchTree.insert).to.be.a('function');
-    expect(binarySearchTree.contains).to.be.a('function');
-    expect(binarySearchTree.depthFirstLog).to.be.a('function');
+    expect(bst.insert).to.be.a('function');
+    expect(bst.contains).to.be.a('function');
+    expect(bst.depthFirstLog).to.be.a('function');
   });
 
   it('should insert values at the correct location in the tree', function() {
-    binarySearchTree.insert(2);
-    binarySearchTree.insert(3);
-    binarySearchTree.insert(7);
-    binarySearchTree.insert(6);
-    expect(binarySearchTree.left.right.value).to.equal(3);
-    expect(binarySearchTree.right.left.value).to.equal(6);
+    bst.insert(2);
+    bst.insert(3);
+    bst.insert(7);
+    bst.insert(6);
+    expect(bst.left.right.value).to.equal(3);
+    expect(bst.right.left.value).to.equal(6);
   });
 
   it('should have a working "contains" method', function() {
-    binarySearchTree.insert(2);
-    binarySearchTree.insert(3);
-    binarySearchTree.insert(7);
-    expect(binarySearchTree.contains(7)).to.equal(true);
-    expect(binarySearchTree.contains(8)).to.equal(false);
+    bst.insert(2);
+    bst.insert(3);
+    bst.insert(7);
+    expect(bst.contains(7)).to.equal(true);
+    expect(bst.contains(8)).to.equal(false);
   });
 
   it('should execute a callback on every value in a tree using "depthFirstLog"', function() {
     var array = [];
     var func = function(value) { array.push(value); };
-    binarySearchTree.insert(2);
-    binarySearchTree.insert(3);
-    binarySearchTree.depthFirstLog(func);
+    bst.insert(2);
+    bst.insert(3);
+    bst.depthFirstLog(func);
     expect(array).to.eql([5, 2, 3]);
   });
 
   it('should execute callback function on values in increasing order', function() {
     var array = [];
     var func = function(value) { array.push(value); };
-    binarySearchTree.insert(6);
-    binarySearchTree.insert(7);
-    binarySearchTree.insert(8);
-    binarySearchTree.insert(9);
-    binarySearchTree.depthFirstLog(func);
+    bst.insert(6);
+    bst.insert(7);
+    bst.insert(8);
+    bst.insert(9);
+    bst.depthFirstLog(func);
     expect(array).to.eql([5,6,7,8,9]);
   });
 
   it('should not have duplicate values', function() {
     var array = [];
     var func = function(value) { array.push(value); };
-    binarySearchTree.insert(5);
-    binarySearchTree.insert(5);
-    binarySearchTree.insert(5);
-    binarySearchTree.insert(5);
-    binarySearchTree.depthFirstLog(func);
+    bst.insert(5);
+    bst.insert(5);
+    bst.insert(5);
+    bst.insert(5);
+    bst.depthFirstLog(func);
     expect(array).to.eql([5]);
   });
 
   it('should handle weird values', function() {
     var array = [];
     var func = function(value) { array.push(value); };
-    binarySearchTree.insert(-1);
-    binarySearchTree.insert(-2);
-    binarySearchTree.insert(6);
-    binarySearchTree.insert(999999999999999999999999999);
-    binarySearchTree.depthFirstLog(func);
+    bst.insert(-1);
+    bst.insert(-2);
+    bst.insert(6);
+    bst.insert(999999999999999999999999999);
+    bst.depthFirstLog(func);
     expect(array).to.eql([5,-1,-2,6,999999999999999999999999999]);
   });
 
   it('should find max depth of tree', function() {
-    binarySearchTree.insert(20);
-    expect(binarySearchTree.findMaxDepth()).to.equal(2);
+    bst.insert(20);
+    expect(bst.findMaxDepth()).to.equal(1);
 
-    binarySearchTree.insert(30);
-    expect(binarySearchTree.findMaxDepth()).to.equal(3);
-    binarySearchTree.insert(40);
-    expect(binarySearchTree.findMaxDepth()).to.equal(4);
+    bst.insert(30);
+    expect(bst.findMaxDepth()).to.equal(2);
+    bst.insert(40);
+    expect(bst.findMaxDepth()).to.equal(3);
   });
 
   it('should find depth of tree with no branches', function() {
-    binarySearchTree = BinarySearchTree(5);
-    expect(binarySearchTree.findMaxDepth()).to.equal(1);
+    expect(bst.findMaxDepth()).to.equal(0);
+  });
+
+  it('should find min height of tree with one left leaf', function() {
+    expect(bst.findMinDepth()).to.equal(0);
+    bst.insert(2);
+    expect(bst.findMinDepth()).to.equal(0);
   });
 
   it('should find min height of tree', function() {
-    expect(binarySearchTree.findMinDepth()).to.equal(1);
-    binarySearchTree.insert(2);
-    expect(binarySearchTree.findMinDepth()).to.equal(2);
-    binarySearchTree.insert(1);
-    expect(binarySearchTree.findMinDepth()).to.equal(3);
-    binarySearchTree.insert(7);
-    expect(binarySearchTree.findMinDepth()).to.equal(2);
-    binarySearchTree.insert(3);
-    expect(binarySearchTree.findMinDepth()).to.equal(2);
+    expect(bst.findMinDepth()).to.equal(0);
+    bst.insert(2);
+    expect(bst.findMinDepth()).to.equal(0);
+    bst.insert(1);
+    expect(bst.findMinDepth()).to.equal(0);
+    bst.insert(7);
+    expect(bst.findMinDepth()).to.equal(1);
+    bst.insert(3);
+    expect(bst.findMinDepth()).to.equal(1);
   });
+
+  it('should get array of sorted elements', function() {
+    expect(bst.treeToArray()).to.eql([5]);
+    bst.insert(5);
+    bst.insert(2);
+    bst.insert(1);
+    bst.insert(7);
+    expect(bst.treeToArray()).to.eql([1,2,5,7]);
+    bst.insert(3);
+    expect(bst.treeToArray()).to.eql([1,2,3,5,7]);
+  });
+
+  it('should rebalance tree of 3 nodes', function() {
+    bst.insert(2);
+    bst.insert(1);
+    expect(bst.treeToArray()).to.eql([1,2,5]);
+    bst.rebalance();
+    expect(bst.findMinDepth()*2 >= bst.findMaxDepth()).to.equal(true);
+
+  });
+
+
+  it('should rebalance tree of 5 nodes in a line', function() {
+    bst.insert(2);
+    bst.insert(1);
+    bst.insert(3);
+    bst.insert(4);
+    expect(bst.treeToArray()).to.eql([1,2,3,4,5]);
+    bst.rebalance();
+    expect(bst.findMinDepth()*2 >= bst.findMaxDepth()).to.equal(true);
+    expect(bst.value).to.equal(3);
+    expect(bst.left.value).to.equal(2);
+    expect(bst.left.left.value).to.equal(1);
+    expect(bst.right.value).to.equal(5);
+    expect(bst.right.left.value).to.equal(4);
+  });
+
+
+  it('should rebalance tree of 6 nodes', function() {
+    bst = BinarySearchTree(1);
+    bst.insert(2);
+    bst.insert(3);
+    bst.insert(5);
+    bst.insert(4);
+    bst.insert(6);
+    expect(bst.treeToArray()).to.eql([1,2,3,4,5,6]);
+    bst.rebalance();
+    expect(bst.findMinDepth()*2 >= bst.findMaxDepth()).to.equal(true);
+  });
+
 
 });

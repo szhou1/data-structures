@@ -8,53 +8,63 @@ var BinarySearchTree = function(value) {
 
 var setBSTPrototype = {};
 
-setBSTPrototype.treeToVine = function(){
+setBSTPrototype.rebalance = function(){
+  if(this.findMinDepth() * 2 < this.findMaxDepth()){
+    var sortedArr = this.treeToArray();
+
+    var buildTree = function(arr, tree){
+      if(arr.length > 0){
+        var midIndex = Math.floor(arr.length / 2);
+
+        tree = BinarySearchTree(arr[midIndex]);
+        var leftSlice = arr.slice(0,midIndex);
+        var rightSlice = arr.slice(midIndex+1);
+        if(leftSlice.length > 0){
+          tree.left = buildTree(leftSlice, tree.left);
+        }
+        if(rightSlice.length > 0){
+          tree.right = buildTree(rightSlice, tree.right);
+        }
+      }
+      return tree;
+    };
+
+
+    var balancedTree = buildTree(sortedArr, this);
+    this.value = balancedTree.value;
+    this.left = balancedTree.left;
+    this.right = balancedTree.right;
+  }
+};
+
+setBSTPrototype.treeToArray = function(){
   var arr = [];
   var traverseTree = function(tree){
     if(!tree){
       return;
     }
-    else{
-      for(var i=0; i<arr.length; i++){
-        if(arr[i].value < tree.value){
-          arr.splice(i+1, 0, tree.value);
-          break;
-        }
-      }
-
-      traverseTree(tree.left);
-      traverseTree(tree.right);
-    }
+    traverseTree(tree.left);
+    arr.push(tree.value);
+    traverseTree(tree.right);
   };
 
   traverseTree(this);
-  console.log(arr);
+  return arr;
 };
 
 setBSTPrototype.findMinDepth = function(){
 
-  // var minHeight = 0;
   var traverseTree = function(tree){
-    if(!tree.left && !tree.right){
-      // is leaf
-      // console.log("leaf")
-      return 1;
+    if(tree.left && tree.right){
+      return 1+ Math.min(traverseTree(tree.left), traverseTree(tree.right));
     } else {
-      if(!tree.left && tree.right){
-        // console.log("traverse right")
-        return traverseTree(tree.right) + 1;
-      } else if (tree.left && !tree.right){
-        // console.log("traverse left")
-        return traverseTree(tree.left) + 1;
-      } else{
-        // console.log("traverse both")
-        return Math.min(traverseTree(tree.left), traverseTree(tree.right)) + 1;
-      }
+      return 0;
     }
   };
 
-  var minHeight = traverseTree(this);
-  return minHeight;
+  var minDepth = traverseTree(this);
+  // console.log("min depth: " + minDepth)
+  return minDepth;
 }
 
 setBSTPrototype.findMaxDepth = function(){
@@ -67,7 +77,8 @@ setBSTPrototype.findMaxDepth = function(){
       return Math.max(traverseTree(tree.left), traverseTree(tree.right)) + 1;
     }
   };
-  var depth = traverseTree(this);
+  var depth = traverseTree(this) - 1;
+  // console.log("max depth: " + depth)
   return depth;
 };
 
@@ -141,6 +152,11 @@ setBSTPrototype.depthFirstLog = function(cb){
 /*
  * Complexity: What is the time complexity of the above functions?
  */
+// findMinDepth - O(n)
+// findMaxDepth - O(n)
+// treeToArray - O(n)
+// rebalance - O(n)
 // insert - O(log(n))
 // contains - O(log(n))
 // depth - O(n)
+//
