@@ -80,11 +80,31 @@ describe('DoublyLinkedList', function() {
     expect(dll.head.next.value).to.equal(5);
   });
 
-  it('', function(){
+  it('should remove tail for size of 1', function(){
+    dll.addToHead(5);
+    expect(dll.removeTail()).to.equal(5);
+    expect(dll.head).to.equal(null);
+  });
+
+  it('should return undefined for empty linked list', function(){
+    expect(dll.removeTail()).to.equal(undefined);
+  });
+
+  it('should remove tail for size of 3', function(){
+    dll.addToHead(1);
+    dll.addToHead(2);
+    dll.addToHead(3);
+    expect(dll.removeTail()).to.equal(1);
+    expect(dll.head.value).to.equal(3);
+    expect(dll.head.next.value).to.equal(2);
+    expect(dll.contains(1)).to.equal(false);
   });
 
   it('', function(){
   });
   it('', function(){
   });
+  it('', function(){
+  });
+
 });
