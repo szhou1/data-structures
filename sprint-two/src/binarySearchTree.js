@@ -8,9 +8,9 @@ var BinarySearchTree = function(value) {
 
 var setBSTPrototype = {};
 
-setBSTPrototype.rebalance = function(){
-  if(this.findMinDepth() * 2 < this.findMaxDepth()){
-    var sortedArr = this.treeToArray();
+setBSTPrototype._rebalance = function(){
+  if(this._findMinDepth() * 2 < this._findMaxDepth()){
+    var sortedArr = this._treeToArray();
 
     var buildTree = function(arr, tree){
       if(arr.length > 0){
@@ -37,7 +37,7 @@ setBSTPrototype.rebalance = function(){
   }
 };
 
-setBSTPrototype.treeToArray = function(){
+setBSTPrototype._treeToArray = function(){
   var arr = [];
   var traverseTree = function(tree){
     if(!tree){
@@ -52,7 +52,7 @@ setBSTPrototype.treeToArray = function(){
   return arr;
 };
 
-setBSTPrototype.findMinDepth = function(){
+setBSTPrototype._findMinDepth = function(){
 
   var traverseTree = function(tree){
     if(tree.left && tree.right){
@@ -67,7 +67,7 @@ setBSTPrototype.findMinDepth = function(){
   return minDepth;
 }
 
-setBSTPrototype.findMaxDepth = function(){
+setBSTPrototype._findMaxDepth = function(){
   // var depth = 0;
   var traverseTree = function(tree){
     if(!tree){
@@ -82,7 +82,7 @@ setBSTPrototype.findMaxDepth = function(){
   return depth;
 };
 
-setBSTPrototype.insert = function(value){
+setBSTPrototype.insert = function(value, _rebalanceFlag){
   var traverseTree = function(node){
     if(!node){
       // insert
@@ -110,6 +110,10 @@ setBSTPrototype.insert = function(value){
   }
 
   traverseTree(this);
+
+  if(_rebalanceFlag){
+    this._rebalance();
+  }
 };
 
 setBSTPrototype.contains = function(value){
@@ -148,14 +152,24 @@ setBSTPrototype.depthFirstLog = function(cb){
   traverseTree(this);
 };
 
+setBSTPrototype.breadthFirstLog = function(cb){
+
+  var traverseTree = function(node){
+    if(node){
+
+    }
+  };
+  traverseTree(this);
+};
+
 
 /*
  * Complexity: What is the time complexity of the above functions?
  */
-// findMinDepth - O(n)
-// findMaxDepth - O(n)
-// treeToArray - O(n)
-// rebalance - O(n)
+// _findMinDepth - O(n)
+// _findMaxDepth - O(n)
+// _treeToArray - O(n)
+// _rebalance - O(n)
 // insert - O(log(n))
 // contains - O(log(n))
 // depth - O(n)
